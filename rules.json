@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "*notion.so/images/emoji/twitter-emoji-spritesheet*",
+      "resourceTypes": ["image"]
+    }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": {
+      "type": "block"
+    },
+    "condition": {
+      "urlFilter": "*notion-emojis.s3-us-west-2.amazonaws.com/*",
+      "resourceTypes": ["image"]
+    }
+  }
+]

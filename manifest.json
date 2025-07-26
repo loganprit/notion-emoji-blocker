@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Notion Emoji Blocker",
+  "version": "1.0",
+  "description": "Blocks Notion from replacing system emoji with Twitter emoji spritesheet",
+  "permissions": [
+    "declarativeNetRequest",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.notion.so/*",
+    "https://notion-emojis.s3-us-west-2.amazonaws.com/*"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.notion.so/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
