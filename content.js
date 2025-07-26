@@ -6,6 +6,14 @@
   const processedElements = new WeakSet();
   let processedCount = 0;
 
+  // Function to detect if a string contains actual emoji characters
+  function isActualEmoji(text) {
+    // Check if the text contains emoji characters
+    // This regex matches most emoji characters including compound emojis
+    const emojiRegex = /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F900}-\u{1F9FF}]|[\u{1F018}-\u{1F270}]|[\u{238C}-\u{2454}]|[\u{20D0}-\u{20FF}]|[\u{FE0F}]|[\u{200D}]/gu;
+    return emojiRegex.test(text);
+  }
+
   // Function to convert sprite emoji back to native emoji
   function restoreNativeEmoji() {
     const emojiElements = document.querySelectorAll('img.notion-emoji');
@@ -18,7 +26,9 @@
       }
       
       const emojiChar = img.alt;
-      if (emojiChar && img.style.background && 
+      // Only convert if it's actually an emoji character (not just any alt text)
+      // and has the blocked emoji background
+      if (emojiChar && isActualEmoji(emojiChar) && img.style.background && 
           (img.style.background.includes('twitter-emoji-spritesheet') || 
            img.style.background.includes('notion-emojis.s3'))) {
         
@@ -54,6 +64,11 @@
       } else {
         // Mark non-emoji images as processed to avoid checking them again
         processedElements.add(img);
+        
+        // Debug logging for skipped elements
+        if (emojiChar && !isActualEmoji(emojiChar)) {
+          console.log('Skipped non-emoji element with alt:', emojiChar);
+        }
       }
     });
     
